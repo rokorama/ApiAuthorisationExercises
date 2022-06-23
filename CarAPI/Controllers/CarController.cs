@@ -43,24 +43,18 @@ public class CarController : ControllerBase
 
     // PUT: api/Car/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
     [HttpPut("edit")]
     public ActionResult<CarDto> PutCar(Guid id, [FromBody]CarDto carDto)
     {
-        // NOT GOOD
-        if (User.Claims.ToList()[1].Value == "User")
-        {
-            _accountService.GrantAdminRights(User.Identity.Name);
-        }
         var result = _repository.PutCar(id, carDto);
         if (result == null)
             return BadRequest($"Item could not be updated!");
         return Ok(result);
-
     }
 
 
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User, Admin")]
     [HttpPost("add")]
     public ActionResult<CarDto> AddCar([FromBody] CarDto carDto)
     {

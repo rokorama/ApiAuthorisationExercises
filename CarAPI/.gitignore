@@ -1,2 +1,4 @@
 bin/*
 obj/*
+../CarAPI.Tests/bin*
+../CarAPI.Tests/obj*
